@@ -45,6 +45,7 @@ class ProductTest extends DuskTestCase
             ->click('#description')
             ->type('#description', $description)
 
+            ->attach('input[type="file"]', public_path('/images/1724417708.png'))
             ->click('button[type="submit"]')
             ->pause(1000)
             ->assertSee('Product created successfully')

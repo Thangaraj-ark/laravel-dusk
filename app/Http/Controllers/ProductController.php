@@ -44,6 +44,11 @@ class ProductController extends Controller
             // 'description' => 'required',
             // 'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        if ($request->hasFile('image_url')) {
+            $image = $request->file('image_url');
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate a unique name for the image
+            $imagePath = $image->storeAs('images', $imageName, 'public'); // Store image in the 'public/images' directory
+        }
         // $imageName = time().'.'.$request->image_url->extension();
         // $request->image_url->move(public_path('images'), $imageName);
 //        $path = Storage::putFile('avatars', $request->file('image_url'));
@@ -51,7 +56,7 @@ class ProductController extends Controller
         $product->fill($request->all());
         // $product->name = $request->name;
         // $product->description = $request->description;
-        // $product->image = 'images/'.$path;
+        $product->image_url = $imagePath;
         $product->save();
 
         return Redirect::route('products.index')
@@ -64,8 +69,9 @@ class ProductController extends Controller
     public function show($id): View
     {
         $product = Product::find($id);
+        $imageUrl = Storage::url($product->image_url); // Generate URL for the stored image
 
-        return view('product.show', compact('product'));
+        return view('product.show', compact('product', 'imageUrl'));
     }
 
     /**
