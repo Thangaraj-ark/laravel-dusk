@@ -41,21 +41,14 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            // 'description' => 'required',
-            // 'image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         if ($request->hasFile('image_url')) {
             $image = $request->file('image_url');
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Generate a unique name for the image
-            $imagePath = $image->storeAs('images', $imageName, 'public'); // Store image in the 'public/images' directory
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('images', $imageName, 'public');
         }
-        // $imageName = time().'.'.$request->image_url->extension();
-        // $request->image_url->move(public_path('images'), $imageName);
-//        $path = Storage::putFile('avatars', $request->file('image_url'));
         $product = new Product();
         $product->fill($request->all());
-        // $product->name = $request->name;
-        // $product->description = $request->description;
         $product->image_url = $imagePath;
         $product->save();
 
