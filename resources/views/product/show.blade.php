@@ -34,9 +34,8 @@
                                 </div>
                                 <div class="form-group mb-2 mb20">
                                     <strong>Image Url:</strong>
-                                    {{ $product->image_url }}
+                                    <img src="{{ $imageUrl }}" alt="Uploaded Image" width="100" height="100">
                                 </div>
-
                     </div>
                 </div>
             </div>
